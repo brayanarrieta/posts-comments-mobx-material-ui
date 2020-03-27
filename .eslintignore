@@ -2,3 +2,4 @@ serviceWorker.js
 *.test.js
 scripts
 config
+build
