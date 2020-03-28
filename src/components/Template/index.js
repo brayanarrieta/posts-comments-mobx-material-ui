@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import {
-  Paper,
   Grid,
   Container,
   Badge,
@@ -119,7 +118,7 @@ function Template() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const FullHeightPaper = clsx(classes.paper, classes.fullHeight);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -166,9 +165,7 @@ function Template() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item md={12}>
-              <Paper className={FullHeightPaper}>
-                <Router />
-              </Paper>
+              <Router />
             </Grid>
           </Grid>
           <Box pt={2}>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import CategoriesList from './CategoriesList';
+import CategoriesTable from './CategoriesTable';
 
 export default function Router() {
   return (
     <Switch>
-      <Route path="/categories" component={CategoriesList} />
+      <Route path="/categories" component={CategoriesTable} />
     </Switch>
   );
 }
