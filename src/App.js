@@ -16,9 +16,14 @@ import {
   CssBaseline,
   makeStyles,
 } from '@material-ui/core';
-import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon, Notifications as NotificationsIcon } from '@material-ui/icons';
-import { mainListItems, secondaryListItems } from './components/listItems';
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  Notifications as NotificationsIcon,
+} from '@material-ui/icons';
+
 import Copyright from './components/Copyright';
+import MenuListItems from './components/MenuListItems';
 
 const drawerWidth = 240;
 
@@ -129,7 +134,7 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Social Network
+            Shop
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -151,9 +156,9 @@ function App() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <MenuListItems />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
