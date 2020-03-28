@@ -16,9 +16,9 @@ const generateMenuItems = (itemList) => itemList.map(({ Icon, text, route }) => 
 ));
 
 const options = [
-  { Icon: Dashboard, text: 'Dashboard', route: '' },
-  { Icon: Assignment, text: 'Orders', route: '' },
-  { Icon: List, text: 'Products', route: '' },
+  { Icon: Dashboard, text: 'Dashboard', route: '/dashboard' },
+  { Icon: Assignment, text: 'Orders', route: '/orders' },
+  { Icon: List, text: 'Products', route: '/products' },
   { Icon: Category, text: 'Categories', route: '/categories' },
 ];
 
