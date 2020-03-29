@@ -18,10 +18,12 @@ const columns = [
 
 const getRowId = (row) => row.id;
 
-const CategoriesTable = ({ CategoriesStore }) => {
+const CategoriesTable = (props) => {
   const {
-    categories, addCategory, updateCategory, deleteCategory,
-  } = CategoriesStore;
+    CategoriesStore: {
+      categories, addCategory, updateCategory, deleteCategory,
+    },
+  } = props;
 
   const commitChanges = ({ added, changed, deleted }) => {
     if (added) {
@@ -38,8 +40,9 @@ const CategoriesTable = ({ CategoriesStore }) => {
   };
   return (
     <Paper>
+
       <Grid
-        rows={CategoriesStore.categories}
+        rows={categories}
         columns={columns}
         getRowId={getRowId}
       >
@@ -55,6 +58,8 @@ const CategoriesTable = ({ CategoriesStore }) => {
           showDeleteCommand
         />
       </Grid>
+
+
       {JSON.stringify(categories)}
     </Paper>
   );
