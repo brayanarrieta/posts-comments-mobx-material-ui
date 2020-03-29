@@ -1,11 +1,13 @@
 import { observable, action } from 'mobx';
+import { computedFn } from 'mobx-utils';
+import defaultData from '../constants';
 
 class CategoriesStore {
-  @observable categories = [];
+  @observable categories = defaultData.categories;
 
   @action
   addCategory = (added) => {
-    const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 0;
+    const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 1;
     this.categories = [...this.categories, { ...added, id }];
   };
 
@@ -21,6 +23,11 @@ class CategoriesStore {
       (row) => (changed[row.id] ? { ...row, ...changed[row.id] } : row),
     );
   }
+
+  getNameByCategoryId = computedFn((id) => {
+    const row = this.categories.find((category) => category.id === id);
+    return row.name;
+  })
 }
 
 const singleton = new CategoriesStore();
