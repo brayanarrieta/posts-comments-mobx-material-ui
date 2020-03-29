@@ -6,7 +6,7 @@ class CategoriesStore {
   @action
   addCategory = (added) => {
     const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 0;
-    this.categories.push({ id, ...added });
+    this.categories = [...this.categories, { ...added, id }];
   };
 
   @action
@@ -17,7 +17,9 @@ class CategoriesStore {
 
   @action
   updateCategory = (changed) => {
-    this.categories.map((row) => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
+    this.categories = this.categories.map(
+      (row) => (changed[row.id] ? { ...row, ...changed[row.id] } : row),
+    );
   }
 }
 

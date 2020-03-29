@@ -40,7 +40,6 @@ const CategoriesTable = (props) => {
   };
   return (
     <Paper>
-
       <Grid
         rows={categories}
         columns={columns}
@@ -58,9 +57,6 @@ const CategoriesTable = (props) => {
           showDeleteCommand
         />
       </Grid>
-
-
-      {JSON.stringify(categories)}
     </Paper>
   );
 };
