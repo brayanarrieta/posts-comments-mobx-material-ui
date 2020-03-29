@@ -4,17 +4,17 @@ class CategoriesStore {
   @observable categories = [];
 
   @action
-  add = (category) => {
+  addCategory = (category) => {
     this.categories.push(category);
   };
 
   @action
-  delete = (category) => {
+  deleteCategory = (category) => {
     this.categories.splice(this.categories.indexOf(category), 1);
   };
 
   @action
-  update = (newData, oldData) => {
+  updateCategory = (newData, oldData) => {
     if (oldData) {
       this.categories[this.categories.indexOf(oldData)] = newData;
     }

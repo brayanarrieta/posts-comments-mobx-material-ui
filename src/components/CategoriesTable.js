@@ -1,51 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
+import { inject, observer } from 'mobx-react';
 
 const columns = [
   { title: 'Name', field: 'name' },
   { title: 'Description', field: 'description' },
 ];
 
-const CategoriesTable = () => {
-  const [state, setState] = useState({
-    columns,
-    data: [],
-  });
-
+const CategoriesTable = ({ CategoriesStore }) => {
+  const {
+    categories, addCategory, updateCategory, deleteCategory,
+  } = CategoriesStore;
   return (
     <MaterialTable
       title="Categories"
-      columns={state.columns}
-      data={state.data}
+      columns={columns}
+      data={categories}
       editable={{
-        onRowAdd: (newData) => new Promise((resolve) => {
-          resolve();
-          setState((prevState) => {
-            const data = [...prevState.data, newData];
-            return { ...prevState, data };
-          });
-        }),
-        onRowUpdate: (newData, oldData) => new Promise((resolve) => {
-          resolve();
-          if (oldData) {
-            setState((prevState) => {
-              const data = [...prevState.data];
-              data[data.indexOf(oldData)] = newData;
-              return { ...prevState, data };
-            });
-          }
-        }),
-        onRowDelete: (oldData) => new Promise((resolve) => {
-          resolve();
-          setState((prevState) => {
-            const data = [...prevState.data];
-            data.splice(data.indexOf(oldData), 1);
-            return { ...prevState, data };
-          });
-        }),
+        onRowAdd: (newData) => Promise.resolve(addCategory(newData)),
+        onRowUpdate: (newData, oldData) => Promise.resolve(updateCategory(newData, oldData)),
+        onRowDelete: (oldData) => Promise.resolve(deleteCategory(oldData)),
       }}
     />
   );
 };
 
-export default CategoriesTable;
+export default inject('CategoriesStore')(observer(CategoriesTable));
