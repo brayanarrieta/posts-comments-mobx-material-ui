@@ -1,28 +1,72 @@
 import React from 'react';
-import MaterialTable from 'material-table';
 import { inject, observer } from 'mobx-react';
+import Paper from '@material-ui/core/Paper';
+import { EditingState } from '@devexpress/dx-react-grid';
+import {
+  Grid,
+  Table,
+  TableHeaderRow,
+  TableEditRow,
+  TableEditColumn,
+} from '@devexpress/dx-react-grid-material-ui';
+import PropTypes from 'prop-types';
 
 const columns = [
-  { title: 'Name', field: 'name' },
-  { title: 'Description', field: 'description' },
+  { title: 'Name', name: 'name' },
+  { title: 'Description', name: 'description' },
 ];
+
+const getRowId = (row) => row.id;
 
 const CategoriesTable = ({ CategoriesStore }) => {
   const {
     categories, addCategory, updateCategory, deleteCategory,
   } = CategoriesStore;
+
+  const commitChanges = ({ added, changed, deleted }) => {
+    if (added) {
+      added.map((row) => (addCategory(row)));
+    }
+
+    if (changed) {
+      updateCategory(changed);
+    }
+
+    if (deleted) {
+      deleteCategory(deleted);
+    }
+  };
   return (
-    <MaterialTable
-      title="Categories"
-      columns={columns}
-      data={categories}
-      editable={{
-        onRowAdd: (newData) => Promise.resolve(addCategory(newData)),
-        onRowUpdate: (newData, oldData) => Promise.resolve(updateCategory(newData, oldData)),
-        onRowDelete: (oldData) => Promise.resolve(deleteCategory(oldData)),
-      }}
-    />
+    <Paper>
+      <Grid
+        rows={CategoriesStore.categories}
+        columns={columns}
+        getRowId={getRowId}
+      >
+        <EditingState
+          onCommitChanges={commitChanges}
+        />
+        <Table />
+        <TableHeaderRow />
+        <TableEditRow />
+        <TableEditColumn
+          showAddCommand
+          showEditCommand
+          showDeleteCommand
+        />
+      </Grid>
+      {JSON.stringify(categories)}
+    </Paper>
   );
+};
+
+CategoriesTable.propTypes = {
+  CategoriesStore: PropTypes.shape({
+    categories: PropTypes.array.isRequired,
+    addCategory: PropTypes.func.isRequired,
+    updateCategory: PropTypes.func.isRequired,
+    deleteCategory: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default inject('CategoriesStore')(observer(CategoriesTable));

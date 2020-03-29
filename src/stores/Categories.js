@@ -4,20 +4,20 @@ class CategoriesStore {
   @observable categories = [];
 
   @action
-  addCategory = (category) => {
-    this.categories.push(category);
+  addCategory = (added) => {
+    const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 0;
+    this.categories.push({ id, ...added });
   };
 
   @action
-  deleteCategory = (category) => {
-    this.categories.splice(this.categories.indexOf(category), 1);
+  deleteCategory = (deleted) => {
+    const deletedSet = new Set(deleted);
+    this.categories = this.categories.filter((row) => !deletedSet.has(row.id));
   };
 
   @action
-  updateCategory = (newData, oldData) => {
-    if (oldData) {
-      this.categories[this.categories.indexOf(oldData)] = newData;
-    }
+  updateCategory = (changed) => {
+    this.categories.map((row) => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
   }
 }
 
