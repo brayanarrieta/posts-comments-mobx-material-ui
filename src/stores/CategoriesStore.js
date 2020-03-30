@@ -1,9 +1,8 @@
 import { observable, action } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import defaultData from '../constants';
 
 class CategoriesStore {
-  @observable categories = defaultData.categories;
+  @observable categories = [];
 
   @action
   addCategory = (added) => {
@@ -30,6 +29,4 @@ class CategoriesStore {
   })
 }
 
-const singleton = new CategoriesStore();
-
-export default singleton;
+export default CategoriesStore;

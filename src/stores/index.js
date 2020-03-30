@@ -1,9 +1,13 @@
-import categories from './Categories';
-import products from './Products';
+import CategoriesStore from './CategoriesStore';
+import ProductsStore from './ProductsStore';
+
+
+const singletonCategoriesStore = new CategoriesStore();
+const singletonProductsStore = new ProductsStore();
 
 const stores = {
-  categories,
-  products,
+  categories: singletonCategoriesStore,
+  products: singletonProductsStore,
 };
 
 export default stores;

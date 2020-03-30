@@ -1,8 +1,7 @@
 import { observable, action, computed } from 'mobx';
-import defaultData from '../constants';
 
 class ProductsStore {
-  @observable products = defaultData.products;
+  @observable products = [];
 
   @action
   addProduct = (product) => {
@@ -29,6 +28,4 @@ class ProductsStore {
   }
 }
 
-const singleton = new ProductsStore();
-
-export default singleton;
+export default ProductsStore;
