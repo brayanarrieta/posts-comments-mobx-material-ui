@@ -3,13 +3,14 @@ import { inject, observer } from 'mobx-react';
 import Paper from '@material-ui/core/Paper';
 import { EditingState } from '@devexpress/dx-react-grid';
 import {
-  Grid,
+  Grid as TableGrid,
   Table,
   TableHeaderRow,
   TableEditRow,
   TableEditColumn,
 } from '@devexpress/dx-react-grid-material-ui';
 import PropTypes from 'prop-types';
+import { Typography, Grid } from '@material-ui/core';
 
 const columns = [
   { title: 'Name', name: 'name' },
@@ -39,25 +40,41 @@ const CategoriesTable = (props) => {
     }
   };
   return (
-    <Paper>
+    <Grid container>
       <Grid
-        rows={categories}
-        columns={columns}
-        getRowId={getRowId}
+        item
+        xs={12}
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
       >
-        <EditingState
-          onCommitChanges={commitChanges}
-        />
-        <Table />
-        <TableHeaderRow />
-        <TableEditRow />
-        <TableEditColumn
-          showAddCommand
-          showEditCommand
-          showDeleteCommand
-        />
+        <Typography variant="h4">
+          Categories
+        </Typography>
       </Grid>
-    </Paper>
+      <Grid item xs={12}>
+        <Paper>
+          <TableGrid
+            rows={categories}
+            columns={columns}
+            getRowId={getRowId}
+          >
+            <EditingState
+              onCommitChanges={commitChanges}
+            />
+            <Table />
+            <TableHeaderRow />
+            <TableEditRow />
+            <TableEditColumn
+              showAddCommand
+              showEditCommand
+              showDeleteCommand
+            />
+          </TableGrid>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
