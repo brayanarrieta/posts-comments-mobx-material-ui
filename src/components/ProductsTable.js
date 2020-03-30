@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
@@ -10,11 +10,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { Button, Grid, Typography } from '@material-ui/core';
+import AddProductDialog from './AddProductDialog';
 
 const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
   container: {
     maxHeight: 440,
   },
@@ -22,8 +21,10 @@ const useStyles = makeStyles({
 
 const ProductsTable = (props) => {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     ProductsStore: {
       products, productsCount,
@@ -40,6 +41,8 @@ const ProductsTable = (props) => {
     { label: 'Category', id: 'categoryId', format: (value) => (getNameByCategoryId(value)) },
   ];
 
+  const handleChangeIsModalOpen = (open) => setIsModalOpen(open);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -51,48 +54,77 @@ const ProductsTable = (props) => {
 
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  return (
-                    <TableCell key={column.id} align={column.align}>
-                      {column.format ? column.format(value) : value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={productsCount}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+    <Grid container>
+      <AddProductDialog
+        isModalOpen={isModalOpen}
+        handleChangeIsModalOpen={handleChangeIsModalOpen}
       />
-    </Paper>
+      <Grid
+        item
+        xs={12}
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h4">
+          Products
+        </Typography>
+        <Button variant="contained" color="primary" onClick={() => handleChangeIsModalOpen(true)}>
+          Add new product
+        </Button>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+      >
+        <Paper>
+          <TableContainer className={classes.container}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format ? column.format(value) : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={productsCount}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Grid>
+
+
+    </Grid>
   );
 };
 
