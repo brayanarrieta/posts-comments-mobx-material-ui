@@ -5,9 +5,9 @@ class ProductsStore {
   @observable products = defaultData.products;
 
   @action
-  addProduct = (added) => {
+  addProduct = (product) => {
     const id = this.products.length > 0 ? this.products[this.products.length - 1].id + 1 : 0;
-    this.products = [...this.products, { ...added, id }];
+    this.products.push({ ...product, id });
   };
 
   @action

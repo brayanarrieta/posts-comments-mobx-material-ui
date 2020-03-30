@@ -131,7 +131,6 @@ const ProductsTable = (props) => {
 ProductsTable.propTypes = {
   ProductsStore: PropTypes.shape({
     products: PropTypes.array.isRequired,
-    addProduct: PropTypes.func.isRequired,
     updateProduct: PropTypes.func.isRequired,
     deleteProduct: PropTypes.func.isRequired,
     productsCount: PropTypes.number.isRequired,
