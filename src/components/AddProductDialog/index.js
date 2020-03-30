@@ -10,14 +10,9 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import isEmptyObject from '../../helpers';
+import { FORM_ERROR_MESSAGES, DEFAULT_FORM_VALUES } from './constants';
 
-const defaultFormValues = {
-  name: '',
-  description: '',
-  price: 0,
-  stock: 0,
-  categoryId: null,
-};
 
 const AddProductDialog = ({
   handleChangeIsModalOpen,
@@ -25,14 +20,45 @@ const AddProductDialog = ({
   ProductsStore: { addProduct },
   CategoriesStore: { categories },
 }) => {
-  const [state, setState] = useState(defaultFormValues);
+  const [state, setState] = useState(DEFAULT_FORM_VALUES);
+  const [errors, setErrors] = useState({});
+
+  const isValidForm = () => {
+    const {
+      name, description, stock, price, categoryId,
+    } = state;
+    const errorValidations = {};
+
+    if (!name) {
+      errorValidations.name = FORM_ERROR_MESSAGES.NAME_REQUIRED;
+    }
+    if (!description) {
+      errorValidations.description = FORM_ERROR_MESSAGES.DESCRIPTION_REQUIRED;
+    }
+    if (stock < 0) {
+      errorValidations.stock = FORM_ERROR_MESSAGES.STOCK_INVALID;
+    }
+    if (price < 0) {
+      errorValidations.price = FORM_ERROR_MESSAGES.PRICE_INVALID;
+    }
+    if (!categoryId) {
+      errorValidations.categoryId = FORM_ERROR_MESSAGES.CATEGORY_ID_REQUIRED;
+    }
+
+    setErrors(errorValidations);
+    return !!isEmptyObject(errorValidations);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!isValidForm()) {
+      return;
+    }
     addProduct(state);
     handleChangeIsModalOpen(false);
-    setState(defaultFormValues);
+    setState(DEFAULT_FORM_VALUES);
   };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +76,8 @@ const AddProductDialog = ({
         <DialogTitle id="add-product-form-dialog-title">Add new Product</DialogTitle>
         <DialogContent>
           <TextField
+            error={!!errors.name}
+            required
             autoFocus
             margin="dense"
             id="name"
@@ -59,9 +87,11 @@ const AddProductDialog = ({
             fullWidth
             value={state.name}
             onChange={handleChange}
+            helperText={errors.name}
           />
           <TextField
-            autoFocus
+            error={!!errors.description}
+            required
             margin="dense"
             id="description"
             name="description"
@@ -70,19 +100,20 @@ const AddProductDialog = ({
             fullWidth
             value={state.description}
             onChange={handleChange}
+            helperText={errors.description}
           />
           <TextField
+            error={!!errors.categoryId}
             required
-            autoFocus
             margin="dense"
             select
             fullWidth
             label="Category"
             id="categories-select"
             name="categoryId"
-            value={state.categoryId || ''}
+            value={state.categoryId}
             onChange={handleChange}
-            helperText="Please select the product category"
+            helperText={errors.categoryId}
           >
             {categories.map((category) => (
               <MenuItem key={category.name} value={category.id}>
@@ -91,7 +122,7 @@ const AddProductDialog = ({
             ))}
           </TextField>
           <TextField
-            autoFocus
+            error={!!errors.price}
             margin="dense"
             id="price"
             name="price"
@@ -100,9 +131,10 @@ const AddProductDialog = ({
             fullWidth
             value={state.price}
             onChange={handleChange}
+            helperText={errors.price}
           />
           <TextField
-            autoFocus
+            error={!!errors.stock}
             margin="dense"
             id="stock"
             name="stock"
@@ -111,6 +143,7 @@ const AddProductDialog = ({
             fullWidth
             value={state.stock}
             onChange={handleChange}
+            helperText={errors.stock}
           />
         </DialogContent>
         <DialogActions>
