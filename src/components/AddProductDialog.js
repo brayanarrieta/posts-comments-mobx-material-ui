@@ -6,13 +6,18 @@ import {
   TextField,
   DialogActions,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
   MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+
+const defaultFormValues = {
+  name: '',
+  description: '',
+  price: 0,
+  stock: 0,
+  categoryId: null,
+};
 
 const AddProductDialog = ({
   handleChangeIsModalOpen,
@@ -20,18 +25,13 @@ const AddProductDialog = ({
   ProductsStore: { addProduct },
   CategoriesStore: { categories },
 }) => {
-  const [state, setState] = useState({
-    name: '',
-    description: '',
-    price: 0,
-    stock: 0,
-    categoryId: null,
-  });
+  const [state, setState] = useState(defaultFormValues);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     addProduct(state);
     handleChangeIsModalOpen(false);
+    setState(defaultFormValues);
   };
 
   const handleChange = (event) => {
@@ -71,22 +71,25 @@ const AddProductDialog = ({
             value={state.description}
             onChange={handleChange}
           />
-          <FormControl style={{ minWidth: '100%' }}>
-            <InputLabel id="categories-select-label">Category</InputLabel>
-            <Select
-              labelId="categories-select-label"
-              id="categories-select"
-              name="categoryId"
-              value={state.categoryId || ''}
-              onChange={handleChange}
-            >
-              {categories.map((category) => (
-                <MenuItem key={category.name} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <TextField
+            required
+            autoFocus
+            margin="dense"
+            select
+            fullWidth
+            label="Category"
+            id="categories-select"
+            name="categoryId"
+            value={state.categoryId || ''}
+            onChange={handleChange}
+            helperText="Please select the product category"
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.name} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             autoFocus
             margin="dense"

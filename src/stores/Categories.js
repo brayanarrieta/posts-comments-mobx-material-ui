@@ -25,8 +25,8 @@ class CategoriesStore {
   }
 
   getNameByCategoryId = computedFn((id) => {
-    const row = this.categories.find((category) => category.id === id);
-    return row.name;
+    const { name = '' } = this.categories.find((category) => category.id === id) || {};
+    return name;
   })
 }
 
