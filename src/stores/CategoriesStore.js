@@ -4,10 +4,14 @@ import { computedFn } from 'mobx-utils';
 class CategoriesStore {
   @observable categories = [];
 
+  generateId=() => {
+    const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 1;
+    return id;
+  }
+
   @action
   addCategory = (added) => {
-    const id = this.categories.length > 0 ? this.categories[this.categories.length - 1].id + 1 : 1;
-    this.categories = [...this.categories, { ...added, id }];
+    this.categories = [...this.categories, { ...added, id: this.generateId() }];
   };
 
   @action

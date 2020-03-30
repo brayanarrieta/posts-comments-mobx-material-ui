@@ -3,10 +3,14 @@ import { observable, action, computed } from 'mobx';
 class ProductsStore {
   @observable products = [];
 
+  generateId=() => {
+    const id = this.products.length > 0 ? this.products[this.products.length - 1].id + 1 : 1;
+    return id;
+  }
+
   @action
   addProduct = (product) => {
-    const id = this.products.length > 0 ? this.products[this.products.length - 1].id + 1 : 0;
-    this.products.push({ ...product, id });
+    this.products.push({ ...product, id: this.generateId() });
   };
 
   @action

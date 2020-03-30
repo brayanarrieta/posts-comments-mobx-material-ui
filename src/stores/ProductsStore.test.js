@@ -1,14 +1,23 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import ProductsStore from './ProductsStore';
-
-configure({ adapter: new Adapter() });
 
 describe('ProductsStore', () => {
 	let store;
 
 	beforeEach(() => {
 		store = new ProductsStore();
+	});
+
+	describe('generateId', () => {
+		it('Should generate an id', () => {
+			expect(store.generateId()).toBe(1);
+		});
+
+		it('Should generate a consecutive id', () => {
+			const object = { name: 'Rice', description: 'test', price: 0, stock: 0, categoryId: 1 };
+			store.addProduct(object);
+			expect(store.products.length).toBe(1);
+			expect(store.generateId()).toBe(2);
+		});
 	});
 
 	describe('addProduct action', () => {

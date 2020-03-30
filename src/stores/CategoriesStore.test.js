@@ -1,8 +1,4 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import CategoriesStore from './CategoriesStore';
-
-configure({ adapter: new Adapter() });
 
 describe('CategoriesStore', () => {
 	let store;
@@ -11,7 +7,18 @@ describe('CategoriesStore', () => {
 		store = new CategoriesStore();
 	});
 
-	describe('addCategory action', () => {});
+	describe('generateId', () => {
+		it('Should generate an id', () => {
+			expect(store.generateId()).toBe(1);
+    });
+    
+		it('Should generate a consecutive id', () => {
+      const object = { name: 'Food', description: 'Test' };
+			store.addCategory(object);
+			expect(store.categories.length).toBe(1);
+			expect(store.generateId()).toBe(2);
+		});
+	});
 
 	describe('addCategory action', () => {
 		it('Should create a new category', () => {
