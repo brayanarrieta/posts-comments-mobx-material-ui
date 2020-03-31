@@ -39,6 +39,7 @@ const CategoriesTable = (props) => {
       deleteCategory(deleted);
     }
   };
+
   return (
     <Grid container>
       <Grid
