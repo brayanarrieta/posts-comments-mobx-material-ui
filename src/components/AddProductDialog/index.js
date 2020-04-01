@@ -73,7 +73,7 @@ const AddProductDialog = ({
       fullWidth
     >
       <form noValidate autoComplete="off" onSubmit={(e) => handleSubmit(e)}>
-        <DialogTitle id="add-product-form-dialog-title">Add new Product</DialogTitle>
+        <DialogTitle id="add-product-form-dialog-title">Add Product</DialogTitle>
         <DialogContent>
           <TextField
             error={!!errors.name}

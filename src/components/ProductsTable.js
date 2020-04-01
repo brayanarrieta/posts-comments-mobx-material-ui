@@ -70,7 +70,7 @@ const ProductsTable = (props) => {
         <Typography variant="h4">
           Products
         </Typography>
-        <Button variant="contained" color="primary" onClick={() => handleChangeIsModalOpen(true)}>
+        <Button data-testid="button-add-new-product" variant="contained" color="primary" onClick={() => handleChangeIsModalOpen(true)}>
           Add new product
         </Button>
       </Grid>
@@ -131,8 +131,6 @@ const ProductsTable = (props) => {
 ProductsTable.propTypes = {
   ProductsStore: PropTypes.shape({
     products: PropTypes.array.isRequired,
-    updateProduct: PropTypes.func.isRequired,
-    deleteProduct: PropTypes.func.isRequired,
     productsCount: PropTypes.number.isRequired,
   }).isRequired,
   CategoriesStore: PropTypes.shape({
