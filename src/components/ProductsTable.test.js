@@ -50,7 +50,7 @@ describe('ProductsTable', () => {
 		const text = wrapper.find({ children: 'Add new product' }).first().text();
 		expect(text).toEqual('Add new product');
 	});
-
+	
 	it('Should render a TablePagination component', () => {
 		expect(wrapper.find(TablePagination)).toHaveLength(1);
 	});

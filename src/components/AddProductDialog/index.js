@@ -13,7 +13,6 @@ import { inject, observer } from 'mobx-react';
 import isEmptyObject from '../../helpers';
 import { FORM_ERROR_MESSAGES, DEFAULT_FORM_VALUES } from './constants';
 
-
 const AddProductDialog = ({
   handleChangeIsModalOpen,
   isModalOpen,
@@ -110,6 +109,7 @@ const AddProductDialog = ({
             fullWidth
             label="Category"
             id="categories-select"
+            data-testid="categories-select"
             name="categoryId"
             value={state.categoryId}
             onChange={handleChange}
